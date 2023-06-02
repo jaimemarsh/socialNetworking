@@ -5,7 +5,6 @@ const {
     createUser,
     updateUser,
     deleteUser
-    //have not yet done controllers
 } = require('../../controllers/userControllers');
 
 // /api/user

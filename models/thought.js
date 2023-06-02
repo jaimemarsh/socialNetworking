@@ -12,17 +12,15 @@ const thoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            //Use a getter method to format the timestamp on query
-            get: (timestamp) => dateFormat(timestamp),
         },
         username: {
             type: String,
             requried: true,
         },
-        reactions: {
-            //Array of nested documents created with the `reactionSchema`
-            reactions: [ReactionSchema],
-        },
+        // reactions: {
+        //     //Array of nested documents created with the `reactionSchema`
+        //     reactions: [thoughtSchema],
+        // },
     },
     {
         toJSON: {
@@ -33,6 +31,6 @@ const thoughtSchema = new Schema(
     }
 );
 
-const User = model('user', userSchema);
+const Thought = model('Thought', thoughtSchema);
 
-module.exports = User;
+module.exports = Thought;

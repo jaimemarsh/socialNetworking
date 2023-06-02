@@ -1,11 +1,11 @@
 const { ObjectId } = require('mongoose').Types;
-const { Student, Course } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     // Get all thoughts
     getThoughts(req, res) {
         Thought.find()
-            .then(async (thoughts) => {
+            .then((thoughts) => {
                 res.json(thoughts)
             })
             .catch((err) => {
@@ -43,16 +43,25 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
+    createThought(req, res) {
+        Thought.create(req.body)
+            .then((thought) => res.json(thought))
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).json(err);
+            });
+    },
     // DELETE thought by id
     deleteThought(req, res) {
         Thought.findOneAndDelete({ _id: req.params.thoughtId })
-            .then((thought) =>
-                !thought
-                    ? res.status(404).json({ message: 'No thought with this id' })
-                    : Reaction.deleteMany({ _id: { $in: thought.reactions } })
-            )
+            .then((thought) => {
+                if (!thought) {
+                    res.status(404).json({ message: 'No thought with this id' })
+                    // : Reaction.deleteMany({ _id: { $in: thought.reactions } })
+                }
+            })
             .then(() => res.json({ message: 'Thought deleted!' }))
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => console.log(err));
     },
     // POST reaction to a thought
     addReaction(req, res) {
